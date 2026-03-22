@@ -20,48 +20,88 @@ const typedGlyphsData = glyphsData as GlyphMap
 export default function HieroglyphLibrary() {
   const groups = useMemo(() => Object.entries(typedGlyphsData), [])
   const [selectedGroupKey, setSelectedGroupKey] = useState(groups[0]?.[0] ?? "")
+  const [query, setQuery] = useState("")
 
   const selectedGroup = selectedGroupKey ? typedGlyphsData[selectedGroupKey] : null
+  const normalizedQuery = query.trim().toLowerCase()
+
+  const filteredGlyphs = useMemo(() => {
+    if (!selectedGroup) {
+      return []
+    }
+
+    if (!normalizedQuery) {
+      return selectedGroup.glyphs
+    }
+
+    return selectedGroup.glyphs.filter((glyph) => {
+      const searchable = [glyph.id, glyph.unicode, glyph.hieroglyph, glyph.description]
+        .join(" ")
+        .toLowerCase()
+
+      return searchable.includes(normalizedQuery)
+    })
+  }, [selectedGroup, normalizedQuery])
 
   if (groups.length === 0) {
     return null
   }
 
   return (
-    <section className="mt-6 border-t border-border pt-6">
-      <div className="mb-4 flex items-baseline justify-between gap-4">
-        <h2 className="text-lg font-semibold text-foreground">Hieroglyph Library</h2>
-        <p className="text-sm text-muted-foreground">{selectedGroup?.glyphs.length ?? 0} glyphs</p>
-      </div>
+    <section className="mt-5 border-t border-border pt-4">
+      <div className="mb-3 flex flex-wrap items-center gap-1.5">
+        <h2 className="mr-1 whitespace-nowrap text-sm font-semibold text-foreground">
+          Hieroglyph Library
+        </h2>
 
-      <div className="mb-4 flex flex-wrap gap-2">
-        {groups.map(([groupKey, group]) => {
-          const isActive = selectedGroupKey === groupKey
+        <label htmlFor="glyph-group" className="sr-only">
+          Select hieroglyph group
+        </label>
+        <select
+          id="glyph-group"
+          value={selectedGroupKey}
+          onChange={(event) => setSelectedGroupKey(event.target.value)}
+          className="h-8 min-w-[190px] rounded-md border border-border bg-background px-2 text-xs text-foreground outline-none transition-colors focus:border-zinc-400 focus:ring-1 focus:ring-zinc-300"
+        >
+          {groups.map(([groupKey, group]) => (
+            <option key={groupKey} value={groupKey}>
+              {groupKey} - {group.description}
+            </option>
+          ))}
+        </select>
 
-          return (
-            <button
-              key={groupKey}
-              type="button"
-              onClick={() => setSelectedGroupKey(groupKey)}
-              className={[
-                "rounded-md border px-2.5 py-1 text-xs transition-colors",
-                isActive
-                  ? "border-zinc-500 bg-zinc-100 text-zinc-900"
-                  : "border-border bg-background text-muted-foreground hover:bg-muted",
-              ].join(" ")}
-              title={group.description}
-            >
-              {groupKey}
-            </button>
-          )
-        })}
+        <label htmlFor="glyph-filter" className="sr-only">
+          Filter glyphs
+        </label>
+        <input
+          id="glyph-filter"
+          type="text"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder="Filter ID/Unicode/desc"
+          className="h-8 min-w-[190px] flex-1 rounded-md border border-border bg-background px-2.5 text-xs text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-zinc-400 focus:ring-1 focus:ring-zinc-300"
+          aria-label="Filter glyphs"
+        />
+
+        {query && (
+          <button
+            type="button"
+            onClick={() => setQuery("")}
+            className="h-8 rounded-md border border-border px-2 text-[11px] text-muted-foreground transition-colors hover:bg-muted"
+          >
+            Clear
+          </button>
+        )}
+
+        <p className="ml-auto whitespace-nowrap text-[11px] text-muted-foreground">
+          {filteredGlyphs.length}/{selectedGroup?.glyphs.length ?? 0}
+        </p>
       </div>
 
       {selectedGroup && (
         <>
-          <p className="mb-4 text-sm text-muted-foreground">{selectedGroup.description}</p>
           <div className="grid grid-cols-6 gap-2 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12">
-            {selectedGroup.glyphs.map((glyph) => (
+            {filteredGlyphs.map((glyph) => (
               <button
                 key={glyph.id}
                 type="button"
@@ -73,6 +113,10 @@ export default function HieroglyphLibrary() {
               </button>
             ))}
           </div>
+
+          {filteredGlyphs.length === 0 && (
+            <p className="mt-3 text-sm text-muted-foreground">No glyphs match your filter.</p>
+          )}
         </>
       )}
     </section>
