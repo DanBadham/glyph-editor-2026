@@ -49,13 +49,6 @@ export function EditorLayout({ sidebar, children }: EditorLayoutProps) {
         <div className="flex-1 overflow-auto">
           {children}
         </div>
-
-        {/* Glyph Library Interface */}
-        <div className="container mx-auto max-w-5xl p-6 overflow-auto border-t border-border">
-          {/* Additional content can go here */}
-          <h2>Glyph Library</h2>
-          <p>Add glyphs library grid here</p>
-        </div>
       </main>
     </div>
   )
