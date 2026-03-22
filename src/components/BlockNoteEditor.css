@@ -1,0 +1,45 @@
+
+.blocknote-theme-scope[data-color-scheme="light"] {
+  --bn-colors-editor-text: #1f2937;
+  --bn-colors-editor-background: #ffffff;
+  --bn-colors-menu-text: #111827;
+  --bn-colors-menu-background: #f9fafb;
+  --bn-colors-tooltip-text: #111827;
+  --bn-colors-tooltip-background: #f3f4f6;
+  --bn-colors-hovered-text: #111827;
+  --bn-colors-hovered-background: #f3f4f6;
+  --bn-colors-selected-text: #111827;
+  --bn-colors-selected-background: #e5e7eb;
+  --bn-colors-disabled-text: #9ca3af;
+  --bn-colors-disabled-background: #f3f4f6;
+  --bn-colors-shadow: rgba(15, 23, 42, 0.08);
+  --bn-colors-border: transparent;
+  --bn-colors-side-menu: #9ca3af;
+  --bn-color-highlight-colors: #111827;
+  --bn-border-radius: 8px;
+  --bn-font-family: Helvetica Neue, sans-serif;
+}
+
+.blocknote-theme-scope[data-color-scheme="dark"] {
+  --bn-colors-editor-text: #e5e7eb;
+  --bn-colors-editor-background: #0f1115;
+  --bn-colors-menu-text: #e5e7eb;
+  --bn-colors-menu-background: #1f2937;
+  --bn-colors-tooltip-text: #e5e7eb;
+  --bn-colors-tooltip-background: #111827;
+  --bn-colors-hovered-text: #e5e7eb;
+  --bn-colors-hovered-background: #1f2937;
+  --bn-colors-selected-text: #e5e7eb;
+  --bn-colors-selected-background: #374151;
+  --bn-colors-disabled-text: #6b7280;
+  --bn-colors-disabled-background: #1f2937;
+  --bn-colors-shadow: rgba(15, 23, 42, 0.25);
+  --bn-colors-border: transparent;
+  --bn-colors-side-menu: #9ca3af;
+}
+
+.blocknote-theme-scope .bn-container,
+.blocknote-theme-scope .bn-editor {
+  border: 0 !important;
+  box-shadow: none !important;
+}
