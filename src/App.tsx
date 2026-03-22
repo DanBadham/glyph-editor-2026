@@ -1,7 +1,6 @@
 import BlockNoteEditor from './components/BlockNoteEditor'
 import { EditorLayout } from './components/EditorLayout'
 import { Sidebar } from './components/Sidebar'
-import { Card, CardContent } from './components/ui/card'
 
 function App() {
   return (
