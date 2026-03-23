@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "EgyptianHieroglyphs";
+  src: url("/fonts/NotoSansEgyptianHieroglyphs-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+
 /* Class-based dark mode for Tailwind v4 */
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -138,4 +144,8 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
+}
+
+.glyph-font {
+  font-family: "EgyptianHieroglyphs", "Segoe UI Symbol", sans-serif;
 }

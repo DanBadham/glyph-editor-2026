@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react"
 import glyphsData from "@/data/glyphs.json"
+import Glyph from "@/components/Glyph"
 
 type Glyph = {
   id: string
@@ -78,7 +79,7 @@ export default function HieroglyphLibrary() {
           type="text"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="Filter ID/Unicode/desc"
+          placeholder="Filter by ID, description, etc."
           className="h-8 min-w-[190px] flex-1 rounded-md border border-border bg-background px-2.5 text-xs text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-zinc-400 focus:ring-1 focus:ring-zinc-300"
           aria-label="Filter glyphs"
         />
@@ -105,11 +106,14 @@ export default function HieroglyphLibrary() {
               <button
                 key={glyph.id}
                 type="button"
-                className="aspect-square rounded-md border border-zinc-400 bg-white text-2xl leading-none text-zinc-900 transition-colors hover:bg-zinc-50"
+                className="aspect-square rounded-md border border-zinc-400 bg-white text-zinc-900 transition-colors hover:bg-zinc-50"
                 title={`${glyph.id}: ${glyph.description}`}
                 aria-label={`${glyph.id}: ${glyph.description}`}
               >
-                {glyph.hieroglyph}
+                <span className="flex h-full flex-col items-center justify-center gap-1 leading-none">
+                  <Glyph glyph={glyph.hieroglyph} size="md" />
+                  <span className="text-[10px] font-medium text-zinc-600">{glyph.id}</span>
+                </span>
               </button>
             ))}
           </div>
