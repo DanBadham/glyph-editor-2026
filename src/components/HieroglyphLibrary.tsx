@@ -49,7 +49,7 @@ export default function HieroglyphLibrary() {
   }
 
   return (
-    <section className="mt-5 border-t border-border pt-4">
+    <section className="flex-3 min-h-0 overflow-auto border-t border-border p-4">
       <div className="mb-3 flex flex-wrap items-center gap-1.5">
         <h2 className="mr-1 whitespace-nowrap text-sm font-semibold text-foreground">
           Hieroglyph Library
@@ -62,7 +62,7 @@ export default function HieroglyphLibrary() {
           id="glyph-group"
           value={selectedGroupKey}
           onChange={(event) => setSelectedGroupKey(event.target.value)}
-          className="h-8 min-w-[190px] rounded-md border border-border bg-background px-2 text-xs text-foreground outline-none transition-colors focus:border-zinc-400 focus:ring-1 focus:ring-zinc-300"
+          className="h-8 min-w-47.5 rounded-md border border-border bg-background px-2 text-xs text-foreground outline-none transition-colors focus:border-zinc-400 focus:ring-1 focus:ring-zinc-300"
         >
           {groups.map(([groupKey, group]) => (
             <option key={groupKey} value={groupKey}>
@@ -80,7 +80,7 @@ export default function HieroglyphLibrary() {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="Filter by ID, description, etc."
-          className="h-8 min-w-[190px] flex-1 rounded-md border border-border bg-background px-2.5 text-xs text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-zinc-400 focus:ring-1 focus:ring-zinc-300"
+          className="h-8 min-w-47.5 flex-1 rounded-md border border-border bg-background px-2.5 text-xs text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-zinc-400 focus:ring-1 focus:ring-zinc-300"
           aria-label="Filter glyphs"
         />
 

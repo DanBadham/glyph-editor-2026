@@ -46,7 +46,7 @@ export function EditorLayout({ sidebar, children }: EditorLayoutProps) {
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-auto">
+        <div className="flex-1 overflow-auto flex-grow">
           {children}
         </div>
       </main>

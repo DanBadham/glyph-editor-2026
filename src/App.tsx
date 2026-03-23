@@ -6,8 +6,11 @@ import { Sidebar } from './components/Sidebar'
 function App() {
   return (
     <EditorLayout sidebar={<Sidebar />}>
-      <div className="container mx-auto max-w-5xl p-6">
-        <BlockNoteEditor />
+      <div className="flex h-full min-h-0 flex-col">
+        <div className="max-h-9/12 min-h-8/12 overflow-auto p-6">
+          <BlockNoteEditor />
+        </div>
+
         <HieroglyphLibrary />
       </div>
     </EditorLayout>

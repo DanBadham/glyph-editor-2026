@@ -67,7 +67,7 @@ export default function BlockNoteEditor({
 	});
 
 	return (
-		<div className="blocknote-theme-scope" data-color-scheme={colorScheme}>
+		<div className="blocknote-theme-scope h-full" data-color-scheme={colorScheme}>
 			<BlockNoteView editor={editor} data-custom-css theme={colorScheme} />
 		</div>
 	);
