@@ -56,3 +56,7 @@
 .blocknote-theme-scope .bn-editor {
   min-height: 100%;
 }
+
+.blocknote-theme-scope .bn-suggestion-menu {
+  min-width: 320px;
+}
