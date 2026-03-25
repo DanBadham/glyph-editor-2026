@@ -28,15 +28,29 @@ import "@blocknote/mantine/style.css";
 import "@blocknote/core/fonts/inter.css";
 import "./BlockNoteEditor.css";
 
-import { RiAlertFill } from "react-icons/ri";
+import { RiAlertFill, RiLayoutGridLine } from "react-icons/ri";
 import { createAlert } from "./blocks/Alert";
+import { createGlyphBoard } from "./blocks/GlyphBoard";
 
 type BlockNoteEditorProps = {
-	initialContent?: PartialBlock[];
+	initialContent?: PartialBlock<any, any, any>[];
 };
 
+// Custom Slash Menu item for Glyph Board.
+const insertGlyphBoardItem = (editor: ReturnType<typeof useCreateBlockNote>) => ({
+  title: "Glyph Board",
+  onItemClick: () =>
+    insertOrUpdateBlockForSlashMenu(editor, {
+      type: "glyphBoard",
+    }),
+  aliases: ["glyph", "board", "hieroglyph", "glyphboard"],
+  group: "Custom Blocks",
+  icon: <RiLayoutGridLine size={18} />,
+  subtext: "A styled board for laying out hieroglyphs.",
+});
+
 // Custom Slash Menu item to insert a block after the current one.
-const insertHelloWorldItem = (editor: typeof BlockNoteEditor) => ({
+const insertHelloWorldItem = (editor: ReturnType<typeof useCreateBlockNote>) => ({
   title: "Alert",
   onItemClick: () =>
     // If the block containing the text caret is empty, `insertOrUpdateBlock`
@@ -46,7 +60,8 @@ const insertHelloWorldItem = (editor: typeof BlockNoteEditor) => ({
     insertOrUpdateBlockForSlashMenu(editor, {
       type: "alert",
       content: [{ type: "text", text: "This is an example alert" }],
-    }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any),
   aliases: ["note", "warning", "error"],
   group: "Custom Blocks",
   icon: <RiAlertFill size={18} />,
@@ -58,6 +73,7 @@ const getCustomSlashMenuItems = (
   editor: ReturnType<typeof useCreateBlockNote>,
 ): DefaultReactSuggestionItem[] => [
   ...getDefaultReactSlashMenuItems(editor),
+  insertGlyphBoardItem(editor),
   insertHelloWorldItem(editor),
 ];
 
@@ -65,8 +81,8 @@ function createEditorSchema() {
 	return BlockNoteSchema.create({
 		blockSpecs: {
 			...defaultBlockSpecs,
-			// Add custom blocks here, e.g.
 			alert: createAlert(),
+			glyphBoard: createGlyphBoard(),
 		},
 		inlineContentSpecs: {
 			...defaultInlineContentSpecs,
@@ -91,7 +107,8 @@ function createEditorSchema() {
 // 	},
 // });
 
-const DEFAULT_INITIAL_CONTENT: PartialBlock[] = [
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const DEFAULT_INITIAL_CONTENT: PartialBlock<any, any, any>[] = [
 	{
 		type: "heading",
 		content: "Welcome to your glyph editor!",
@@ -146,6 +163,11 @@ export default function BlockNoteEditor({
                 name: "Alert",
                 type: "alert",
                 icon: RiAlertFill,
+              } satisfies BlockTypeSelectItem,
+              {
+                name: "Glyph Board",
+                type: "glyphBoard",
+                icon: RiLayoutGridLine,
               } satisfies BlockTypeSelectItem,
             ]}
           />

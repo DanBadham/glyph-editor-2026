@@ -1,0 +1,46 @@
+/* ─── Glyph Board Block ─────────────────────────────────────────────────────
+   Uses the project's CSS custom properties from index.css so light/dark
+   theme is handled automatically — no explicit [data-color-scheme] overrides
+   needed (muted, border, muted-foreground all flip with .dark).
+──────────────────────────────────────────────────────────────────────────── */
+
+.glyph-board {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  border-radius: 8px;
+  border: 1px solid hsl(var(--border));
+  background-color: hsl(var(--muted));
+  padding: 8px 14px 12px;
+  gap: 6px;
+}
+
+/* Subtle type label in the top-left corner */
+.glyph-board-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Row wrapper — v1 has one row; future layout features add more rows here */
+.glyph-board-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* Inline-content editable area */
+.glyph-board-content {
+  flex: 1;
+  min-height: 28px;
+  /* Hieroglyph font is active globally via .glyph-font; individual glyph
+     characters the user pastes here will inherit it if they carry the class.
+     Plain text falls back to the editor's default font. */
+}
