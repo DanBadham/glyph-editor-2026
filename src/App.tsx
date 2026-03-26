@@ -7,22 +7,25 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "./components/ui/resizable"
+import { EditorContextProvider } from './context/EditorContext'
 
 function App() {
   return (
-    <EditorLayout sidebar={<Sidebar />}>
+    <EditorContextProvider>
+      <EditorLayout sidebar={<Sidebar />}>
       <div id="mainContent" className="flex h-full min-h-0 flex-col">
         <ResizablePanelGroup orientation="vertical" className="min-h-[200px] flex-1">
           <ResizablePanel defaultSize={70}>
             <BlockNoteEditor />
           </ResizablePanel>
           <ResizableHandle withHandle orientation="vertical" />
-          <ResizablePanel defaultSize={30} maxSize={'30%'}>
+          <ResizablePanel defaultSize={30} maxSize={'50%'}>
             <HieroglyphLibrary />
           </ResizablePanel>
         </ResizablePanelGroup>
       </div>
-    </EditorLayout>
+      </EditorLayout>
+    </EditorContextProvider>
   )
 }
 

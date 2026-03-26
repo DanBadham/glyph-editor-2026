@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react"
 import glyphsData from "@/data/glyphs.json"
 import Glyph from "@/components/Glyph"
+import { useEditorContext } from "@/context/EditorContext"
 
 type Glyph = {
   id: string
@@ -19,6 +20,7 @@ type GlyphMap = Record<string, GlyphGroup>
 const typedGlyphsData = glyphsData as GlyphMap
 
 export default function HieroglyphLibrary() {
+  const { insertGlyph } = useEditorContext()
   const groups = useMemo(() => Object.entries(typedGlyphsData), [])
   const [selectedGroupKey, setSelectedGroupKey] = useState(groups[0]?.[0] ?? "")
   const [query, setQuery] = useState("")
@@ -106,9 +108,13 @@ export default function HieroglyphLibrary() {
               <button
                 key={glyph.id}
                 type="button"
-                className="aspect-square rounded-md border border-zinc-400 bg-white text-zinc-900 transition-colors hover:bg-zinc-50"
-                title={`${glyph.id}: ${glyph.description}`}
-                aria-label={`${glyph.id}: ${glyph.description}`}
+                // onMouseDown prevents the editor from losing focus/selection
+                // so insertInlineContent lands at the correct cursor position.
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => insertGlyph(glyph.hieroglyph, glyph.id)}
+                className="aspect-square rounded-md border border-zinc-400 bg-white text-zinc-900 transition-colors hover:bg-zinc-50 active:bg-zinc-100"
+                title={`${glyph.id}: ${glyph.description} — click to insert`}
+                aria-label={`Insert ${glyph.id}: ${glyph.description}`}
               >
                 <span className="flex h-full flex-col items-center justify-center gap-1 leading-none">
                   <Glyph glyph={glyph.hieroglyph} size="md" />

@@ -1,0 +1,28 @@
+/* ─── GlyphChar inline element ──────────────────────────────────────────────
+   Styled pill that wraps a single hieroglyph character inserted from the
+   Library panel. Uses project CSS custom properties for theme-awareness.
+──────────────────────────────────────────────────────────────────────────── */
+
+.glyph-char {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Subtle pill container */
+  /* background-color: hsl(var(--accent));
+  border: 1px solid hsl(var(--border));
+  border-radius: 4px; */
+  padding: 0 4px;
+
+  /* Size — slightly larger than surrounding prose */
+  font-size: 3.35em;
+  line-height: 1.2;
+  vertical-align: middle;
+
+  /* Prevent text selection of the glyph itself; the node is an atomic unit */
+  cursor: default;
+  user-select: none;
+
+  /* Small breathing room between adjacent glyphs */
+  margin: 0 1px;
+}

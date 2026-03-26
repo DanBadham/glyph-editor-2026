@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import {
 	BlockNoteSchema,
 	defaultBlockSpecs,
@@ -31,6 +31,8 @@ import "./BlockNoteEditor.css";
 import { RiAlertFill, RiLayoutGridLine } from "react-icons/ri";
 import { createAlert } from "./blocks/Alert";
 import { createGlyphBoard } from "./blocks/GlyphBoard";
+import { createGlyphChar } from "./blocks/GlyphChar";
+import { useEditorContext } from "@/context/EditorContext";
 
 type BlockNoteEditorProps = {
 	initialContent?: PartialBlock<any, any, any>[];
@@ -86,6 +88,7 @@ function createEditorSchema() {
 		},
 		inlineContentSpecs: {
 			...defaultInlineContentSpecs,
+			glyphChar: createGlyphChar,
 		},
 		styleSpecs: {
 			...defaultStyleSpecs,
@@ -141,10 +144,21 @@ export default function BlockNoteEditor({
 				: "light"
 			: theme;
 
+	const { setInsertGlyph } = useEditorContext();
+
 	const editor = useCreateBlockNote({
 		schema,
 		initialContent,
 	});
+
+	// Register the glyph insertion function in context so HieroglyphLibrary
+	// can call it without needing a direct reference to the editor.
+	useEffect(() => {
+		setInsertGlyph((glyph, glyphId) => {
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			editor.insertInlineContent([{ type: "glyphChar", props: { glyph, glyphId } }] as any);
+		});
+	}, [editor, setInsertGlyph]);
 
 	return (
 		<div className="blocknote-theme-scope h-full pt-8" data-color-scheme={colorScheme}>
